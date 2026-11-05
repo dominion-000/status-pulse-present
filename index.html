@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0b1016" />
-  <title>StatusGrep · Acceptance scenarios</title>
+  <title>StatusGrep · Capstone presentation</title>
   <link rel="icon" href="./mark.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,7 +15,7 @@
       --bg: #0b1016; --fg: #e8eef6; --card: #121b25;
       --muted: #93a2b5; --border: rgba(255,255,255,.12);
       --brand: #3dd68c; --brand2: #4da3ff; --bad: #f07178;
-      --warn: #e7bd62;
+      --warn: #e7bd62; --unknown: #7a8494;
       --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
       --page-pad: clamp(1.5rem, 5vw, 5.5rem);
     }
@@ -44,19 +44,41 @@
     .brand-name span { color:var(--brand); }
     .eyebrow { display:inline-flex; align-items:center; gap:.65rem; color:var(--muted); font-size:.75rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; }
     .eyebrow::before { content:""; width:1.8rem; height:1px; background:linear-gradient(90deg,var(--brand),var(--brand2)); }
+    .nav-pills { display:flex; flex-wrap:wrap; gap:.4rem; }
+    .nav-pills button {
+      padding:.45rem .7rem; border:1px solid var(--border); border-radius:8px;
+      background:rgba(255,255,255,.03); color:var(--muted); font-size:.72rem; font-weight:700;
+      cursor:pointer; transition:border-color .15s, color .15s, background .15s;
+    }
+    .nav-pills button:hover, .nav-pills button.is-active {
+      border-color: rgba(61,214,140,.45); color: var(--brand); background: rgba(61,214,140,.08);
+    }
     .cover-content { min-height:calc(100svh - 5.5rem); display:grid; grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr); align-items:center; gap:clamp(2rem,5vw,5rem); padding:clamp(1.5rem,4vh,3.5rem) 0; }
     .cover-copy { max-width:850px; }
     .cover-copy h1 { margin:1.15rem 0 .9rem; font-size:clamp(3.2rem,6.6vw,7.2rem); line-height:.98; letter-spacing:-.095em; font-weight:800; }
     .cover-copy h1 .accent { color:var(--brand); }
     .lead { max-width:720px; margin:0; color:#b3c0cf; font-size:clamp(.98rem,1.25vw,1.2rem); line-height:1.65; }
     .cover-actions { display:flex; align-items:center; flex-wrap:wrap; gap:1rem; margin-top:1.7rem; }
-    .enter-btn { display:inline-flex; align-items:center; justify-content:center; gap:1rem; min-height:3.5rem; padding:0 1.45rem; border:0; border-radius:12px; color:#07130f; background:linear-gradient(120deg,var(--brand),#72e6ad 55%,var(--brand2)); box-shadow:0 12px 45px rgba(61,214,140,.18); font-size:1rem; font-weight:800; cursor:pointer; transition:transform .2s ease, box-shadow .2s ease; }
+    .enter-btn {
+      display:inline-flex; align-items:center; justify-content:center; gap:1rem; min-height:3.5rem;
+      padding:0 1.45rem; border:0; border-radius:12px; color:#07130f;
+      background:linear-gradient(120deg,var(--brand),#72e6ad 55%,var(--brand2));
+      box-shadow:0 12px 45px rgba(61,214,140,.18); font-size:1rem; font-weight:800; cursor:pointer;
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
     .enter-btn:hover { transform:translateY(-3px); box-shadow:0 18px 55px rgba(61,214,140,.28); }
-    .enter-btn:focus-visible, .back-btn:focus-visible { outline:3px solid var(--brand2); outline-offset:4px; }
+    .enter-btn:focus-visible, .back-btn:focus-visible, .nav-pills button:focus-visible { outline:3px solid var(--brand2); outline-offset:4px; }
     .key-hint { color:var(--muted); font-size:.8rem; }
     kbd { padding:.25rem .5rem; border:1px solid var(--border); border-radius:6px; color:var(--fg); background:rgba(255,255,255,.04); }
-    .product-panel { position:relative; padding:clamp(1.25rem,2.2vw,2rem); border:1px solid var(--border); border-radius:24px; background:linear-gradient(145deg,rgba(21,33,44,.94),rgba(13,20,29,.88)); box-shadow:0 35px 100px rgba(0,0,0,.3); overflow:hidden; }
-    .product-panel::before { content:""; position:absolute; width:22rem; height:22rem; top:-15rem; right:-9rem; border-radius:50%; background:rgba(61,214,140,.12); filter:blur(18px); }
+    .product-panel {
+      position:relative; padding:clamp(1.25rem,2.2vw,2rem); border:1px solid var(--border); border-radius:24px;
+      background:linear-gradient(145deg,rgba(21,33,44,.94),rgba(13,20,29,.88));
+      box-shadow:0 35px 100px rgba(0,0,0,.3); overflow:hidden;
+    }
+    .product-panel::before {
+      content:""; position:absolute; width:22rem; height:22rem; top:-15rem; right:-9rem; border-radius:50%;
+      background:rgba(61,214,140,.12); filter:blur(18px);
+    }
     .panel-top { display:flex; justify-content:space-between; align-items:center; gap:1rem; padding-bottom:1.3rem; border-bottom:1px solid var(--border); color:var(--muted); font-size:.72rem; text-transform:uppercase; letter-spacing:.12em; }
     .live-dot { display:inline-flex; align-items:center; gap:.55rem; color:var(--brand); font-weight:700; }
     .live-dot::before { content:""; width:.55rem; height:.55rem; border-radius:50%; background:var(--brand); box-shadow:0 0 15px rgba(61,214,140,.7); }
@@ -64,93 +86,147 @@
     .monitor-row { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.8rem .95rem; border:1px solid rgba(255,255,255,.075); border-radius:12px; background:rgba(255,255,255,.025); }
     .monitor-name { display:flex; align-items:center; gap:.85rem; font-size:.9rem; font-weight:600; }
     .status-dot { width:.65rem; height:.65rem; border-radius:50%; background:var(--brand); box-shadow:0 0 12px rgba(61,214,140,.5); flex:none; }
+    .status-dot.warn { background:var(--warn); box-shadow:0 0 12px rgba(231,189,98,.5); }
+    .status-dot.bad { background:var(--bad); box-shadow:0 0 12px rgba(240,113,120,.5); }
+    .status-dot.unknown { background:var(--unknown); box-shadow:none; }
     .monitor-state { color:var(--brand); font-size:.72rem; font-weight:700; }
     .monitor-state.warn { color:var(--warn); }
+    .monitor-state.bad { color:var(--bad); }
+    .monitor-state.unknown { color:var(--unknown); }
     .panel-foot { display:flex; justify-content:space-between; gap:1rem; padding-top:1.25rem; border-top:1px solid var(--border); color:var(--muted); font-size:.72rem; }
     .feature-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:.75rem; margin-top:1.5rem; }
     .feature { padding:.8rem .9rem; border-left:2px solid rgba(61,214,140,.55); background:rgba(255,255,255,.025); }
     .feature strong { display:block; margin-bottom:.4rem; color:var(--fg); font-size:.85rem; }
     .feature span { color:var(--muted); font-size:.72rem; line-height:1.6; }
-    .scenario-shell { width:min(100%,1720px); margin:0 auto; padding:1.15rem var(--page-pad) 1.1rem; }
-    .scenario-header { display:flex; align-items:flex-end; justify-content:space-between; gap:1.5rem; padding:1.45rem 0 1.15rem; }
-    .scenario-header h1 { margin:.5rem 0 .35rem; font-size:clamp(2rem,3.4vw,3.5rem); line-height:1.08; letter-spacing:-.075em; }
-    .scenario-header p { margin:0; color:var(--muted); font-size:clamp(.88rem,1vw,1rem); line-height:1.5; }
-    .header-actions { display:flex; align-items:center; gap:1rem; flex:none; }
+    .page-shell { width:min(100%,1720px); margin:0 auto; padding:1.15rem var(--page-pad) 1.5rem; }
+    .page-header { display:flex; align-items:flex-end; justify-content:space-between; gap:1.5rem; padding:1.45rem 0 1.15rem; }
+    .page-header h1 { margin:.5rem 0 .35rem; font-size:clamp(2rem,3.4vw,3.5rem); line-height:1.08; letter-spacing:-.075em; }
+    .page-header p { margin:0; color:var(--muted); font-size:clamp(.88rem,1vw,1rem); line-height:1.5; max-width:62ch; }
+    .header-actions { display:flex; align-items:center; gap:1rem; flex:none; flex-wrap:wrap; }
     .count { color:var(--muted); font-size:.78rem; white-space:nowrap; }
     .count strong { color:var(--brand); font-size:1.05rem; }
-    .back-btn { padding:.8rem 1rem; border:1px solid var(--border); border-radius:9px; color:var(--fg); background:rgba(255,255,255,.035); font-size:.78rem; font-weight:700; cursor:pointer; }
+    .back-btn {
+      padding:.8rem 1rem; border:1px solid var(--border); border-radius:9px; color:var(--fg);
+      background:rgba(255,255,255,.035); font-size:.78rem; font-weight:700; cursor:pointer;
+      transition:border-color .15s, color .15s;
+    }
     .back-btn:hover { border-color:rgba(61,214,140,.5); color:var(--brand); }
     .scenario-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.75rem; }
-    .scenario { position:relative; min-height:0; padding:clamp(.9rem,1.25vw,1.25rem); border:1px solid var(--border); border-radius:16px; background:linear-gradient(145deg,rgba(19,29,40,.96),rgba(15,23,32,.92)); box-shadow:0 15px 40px rgba(0,0,0,.13); overflow:hidden; }
-    .scenario::after { content:""; position:absolute; top:0; left:0; width:4px; height:100%; background:linear-gradient(var(--brand),rgba(77,163,255,.55)); opacity:.8; }
+    .scenario {
+      position:relative; min-height:0; padding:clamp(.9rem,1.25vw,1.25rem);
+      border:1px solid var(--border); border-radius:16px;
+      background:linear-gradient(145deg,rgba(19,29,40,.96),rgba(15,23,32,.92));
+      box-shadow:0 15px 40px rgba(0,0,0,.13); overflow:hidden;
+    }
+    .scenario::after {
+      content:""; position:absolute; top:0; left:0; width:4px; height:100%;
+      background:linear-gradient(var(--brand),rgba(77,163,255,.55)); opacity:.8;
+    }
     .scenario-top { display:flex; align-items:center; justify-content:space-between; gap:.75rem; margin-bottom:.65rem; }
     .number { color:var(--brand); font-size:.9rem; font-weight:800; letter-spacing:.08em; }
-    .tag { padding:.38rem .65rem; border:1px solid rgba(61,214,140,.2); border-radius:999px; color:var(--brand); background:rgba(61,214,140,.07); font-size:.64rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
+    .tag {
+      padding:.38rem .65rem; border:1px solid rgba(61,214,140,.2); border-radius:999px;
+      color:var(--brand); background:rgba(61,214,140,.07); font-size:.64rem; font-weight:700;
+      letter-spacing:.1em; text-transform:uppercase;
+    }
     .scenario h2 { margin:0 0 .45rem; font-size:clamp(1rem,1.25vw,1.25rem); line-height:1.28; letter-spacing:-.045em; }
     .scenario p { max-width:75ch; margin:0; color:#aab8c8; font-size:clamp(.78rem,.88vw,.9rem); line-height:1.55; }
     .scenario p strong { color:var(--fg); font-weight:700; }
     .scenario:nth-child(2) .tag { color:var(--bad); border-color:rgba(240,113,120,.25); background:rgba(240,113,120,.07); }
     .scenario:nth-child(3) .tag { color:var(--brand2); border-color:rgba(77,163,255,.25); background:rgba(77,163,255,.07); }
     .scenario:nth-child(7) .tag { color:var(--warn); border-color:rgba(231,189,98,.25); background:rgba(231,189,98,.07); }
-    .foot { display:flex; justify-content:space-between; gap:1rem; margin-top:.9rem; padding-top:.7rem; border-top:1px solid var(--border); color:var(--muted); font-size:.72rem; line-height:1.7; }
+    .foot {
+      display:flex; justify-content:space-between; gap:1rem; margin-top:.9rem; padding-top:.7rem;
+      border-top:1px solid var(--border); color:var(--muted); font-size:.72rem; line-height:1.7;
+    }
     .foot strong { color:var(--fg); }
+    /* Features page */
+    .feat-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.85rem; }
+    .feat-card {
+      padding:1.15rem 1.25rem; border:1px solid var(--border); border-radius:16px;
+      background:linear-gradient(145deg,rgba(19,29,40,.96),rgba(15,23,32,.92));
+      box-shadow:0 15px 40px rgba(0,0,0,.12);
+    }
+    .feat-card h2 { margin:0 0 .75rem; font-size:1rem; letter-spacing:-.03em; }
+    .feat-card ul { margin:0; padding:0; list-style:none; display:grid; gap:.55rem; }
+    .feat-card li { color:#aab8c8; font-size:.8rem; line-height:1.5; padding-left:0; }
+    .feat-card li strong { color:var(--fg); }
+    .pill-row { display:flex; flex-wrap:wrap; gap:.45rem; margin:.35rem 0 .6rem; }
+    .pill {
+      display:inline-flex; align-items:center; gap:.4rem; padding:.35rem .65rem; border-radius:999px;
+      border:1px solid var(--border); font-size:.68rem; font-weight:700; letter-spacing:.04em;
+    }
+    .pill.ok { color:var(--brand); border-color:rgba(61,214,140,.35); background:rgba(61,214,140,.08); }
+    .pill.warn { color:var(--warn); border-color:rgba(231,189,98,.35); background:rgba(231,189,98,.08); }
+    .pill.bad { color:var(--bad); border-color:rgba(240,113,120,.35); background:rgba(240,113,120,.08); }
+    .pill.unknown { color:var(--unknown); border-color:rgba(122,132,148,.35); background:rgba(122,132,148,.08); }
+    .pill.inc { color:var(--brand2); border-color:rgba(77,163,255,.35); background:rgba(77,163,255,.08); }
+    .flow {
+      display:flex; flex-wrap:wrap; align-items:center; gap:.4rem; margin-top:.5rem;
+      font-size:.72rem; color:var(--muted);
+    }
+    .flow span {
+      padding:.3rem .55rem; border-radius:8px; border:1px solid var(--border);
+      background:rgba(255,255,255,.03); color:var(--fg); font-weight:600;
+    }
+    .flow i { font-style:normal; color:var(--brand); }
+    .wide { grid-column:1 / -1; }
     @keyframes rise { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
     .animate { animation:rise .55s ease both; }
-    .scenario:nth-child(2) { animation-delay:.04s; } .scenario:nth-child(3) { animation-delay:.08s; }
-    .scenario:nth-child(4) { animation-delay:.12s; } .scenario:nth-child(5) { animation-delay:.16s; }
-    .scenario:nth-child(6) { animation-delay:.20s; } .scenario:nth-child(7) { animation-delay:.24s; }
-    @media (min-width:901px) and (max-height:850px) {
-      .scenario-shell { padding-top:.75rem; padding-bottom:.65rem; }
-      .scenario-header { padding:.8rem 0 .75rem; }
-      .scenario-grid { gap:.6rem; }
-      .scenario { padding:.75rem 1rem; }
-      .scenario-top { margin-bottom:.45rem; }
-      .scenario h2 { font-size:1.02rem; margin-bottom:.3rem; }
-      .scenario p { font-size:.76rem; line-height:1.42; }
-      .foot { margin-top:.65rem; padding-top:.5rem; }
+    .scenario:nth-child(2),.feat-card:nth-child(2) { animation-delay:.04s; }
+    .scenario:nth-child(3),.feat-card:nth-child(3) { animation-delay:.08s; }
+    .scenario:nth-child(4),.feat-card:nth-child(4) { animation-delay:.12s; }
+    .scenario:nth-child(5),.feat-card:nth-child(5) { animation-delay:.16s; }
+    .scenario:nth-child(6),.feat-card:nth-child(6) { animation-delay:.20s; }
+    .scenario:nth-child(7),.feat-card:nth-child(7) { animation-delay:.24s; }
+    @media (max-width:900px) {
+      .cover-content { grid-template-columns:1fr; gap:2.5rem; padding:4rem 0; }
+      .product-panel { max-width:700px; }
+      .scenario-grid, .feat-grid { grid-template-columns:1fr; }
     }
-    @media (min-width:901px) and (max-height:740px) {
-      .scenario-header h1 { font-size:2.25rem; }
-      .scenario-header p { font-size:.82rem; }
-      .scenario { padding:.58rem .85rem; }
-      .scenario p { font-size:.71rem; line-height:1.35; }
-      .tag { padding:.25rem .5rem; }
-    }
-    @media (max-width:900px) { .cover-content { grid-template-columns:1fr; gap:2.5rem; padding:4rem 0; } .product-panel { max-width:700px; } .scenario-grid { grid-template-columns:1fr; } .scenario { min-height:0; } }
     @media (max-width:600px) {
-      :root { --page-pad:1.1rem; } .shell,.scenario-shell { padding-top:1.2rem; }
-      .cover-copy h1 { font-size:clamp(3.2rem,17vw,5rem); } .feature-strip { grid-template-columns:1fr; }
-      .scenario-header { align-items:flex-start; flex-direction:column; gap:1.25rem; }
-      .header-actions { width:100%; justify-content:space-between; } .scenario { padding:1.3rem; }
+      :root { --page-pad:1.1rem; }
+      .cover-copy h1 { font-size:clamp(3.2rem,17vw,5rem); }
+      .feature-strip { grid-template-columns:1fr; }
+      .page-header { align-items:flex-start; flex-direction:column; gap:1.25rem; }
+      .header-actions { width:100%; justify-content:space-between; }
       .foot { flex-direction:column; }
     }
-    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; } }
+    @media (prefers-reduced-motion:reduce) {
+      *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+    }
   </style>
 </head>
 <body>
   <main>
+    <!-- COVER -->
     <section class="screen" id="cover" aria-labelledby="cover-title">
       <div class="shell">
         <header class="topbar">
-          <a class="brand" href="#" aria-label="StatusGrep home">
+          <a class="brand" href="#cover" data-go="cover" aria-label="StatusGrep home">
             <img src="./mark.svg" alt="" />
             <span class="brand-name">Status<span>Grep</span></span>
           </a>
-          <span class="eyebrow">Product walkthrough</span>
+          <nav class="nav-pills" aria-label="Presentation sections">
+            <button type="button" data-go="cover" class="is-active">Cover</button>
+            <button type="button" data-go="features">Features</button>
+            <button type="button" data-go="scenarios">Acceptance</button>
+          </nav>
         </header>
         <div class="cover-content">
           <div class="cover-copy animate">
-            <span class="eyebrow">Status Pulse · Monitoring & incident communication</span>
+            <span class="eyebrow">Status Pulse · Capstone final demo</span>
             <h1 id="cover-title">Know when<br />things go <span class="accent">down.</span></h1>
-            <p class="lead">StatusGrep(Status-pulse) is an endpoint-monitoring and incident-communication system that checks services on a schedule, detects outages, alerts teams, and keeps customers informed through public status pages.</p>
+            <p class="lead">StatusGrep is the operator UI for <strong style="color:var(--fg)">Status Pulse</strong>: scheduled HTTP checks, derived health, incidents and alerts, public status pages, and plan limits with real Paystack checkout.</p>
             <div class="cover-actions">
-              <button class="enter-btn" id="enter" type="button">Enter presentation <span aria-hidden="true">→</span></button>
-              <span class="key-hint">or press <kbd>Enter</kbd></span>
+              <button class="enter-btn" type="button" data-go="features">Product features <span aria-hidden="true">→</span></button>
+              <button class="back-btn" type="button" data-go="scenarios">Acceptance scenarios</button>
+              <span class="key-hint"><kbd>1</kbd> cover · <kbd>2</kbd> features · <kbd>3</kbd> acceptance</span>
             </div>
             <div class="feature-strip" aria-label="Core capabilities">
-              <div class="feature"><strong>Monitor</strong><span>Scheduled HTTP checks and service health</span></div>
-              <div class="feature"><strong>Respond</strong><span>Incidents, alerts and recovery rules</span></div>
-              <div class="feature"><strong>Communicate</strong><span>Public status pages and subscriber updates</span></div>
+              <div class="feature"><strong>Monitor</strong><span>Scheduled checks, thresholds, history</span></div>
+              <div class="feature"><strong>Respond</strong><span>Incidents, alerts, acknowledgements</span></div>
+              <div class="feature"><strong>Communicate</strong><span>Public status + subscriber mail</span></div>
             </div>
           </div>
           <aside class="product-panel animate" aria-label="Illustrative service health panel">
@@ -158,31 +234,161 @@
             <div class="monitor-list">
               <div class="monitor-row"><span class="monitor-name"><i class="status-dot"></i> API Gateway</span><span class="monitor-state">OPERATIONAL</span></div>
               <div class="monitor-row"><span class="monitor-name"><i class="status-dot"></i> Customer Dashboard</span><span class="monitor-state">OPERATIONAL</span></div>
-              <div class="monitor-row"><span class="monitor-name"><i class="status-dot"></i> Notification Worker</span><span class="monitor-state warn">DEGRADED</span></div>
-              <div class="monitor-row"><span class="monitor-name"><i class="status-dot"></i> Public API</span><span class="monitor-state">OPERATIONAL</span></div>
+              <div class="monitor-row"><span class="monitor-name"><i class="status-dot warn"></i> Notification Worker</span><span class="monitor-state warn">DEGRADED</span></div>
+              <div class="monitor-row"><span class="monitor-name"><i class="status-dot bad"></i> Payments API</span><span class="monitor-state bad">OUTAGE</span></div>
+              <div class="monitor-row"><span class="monitor-name"><i class="status-dot unknown"></i> New Service</span><span class="monitor-state unknown">UNKNOWN</span></div>
             </div>
-            <div class="panel-foot"><span>Checks → status → incidents</span><span>STATUS PULSE ENGINE</span></div>
+            <div class="panel-foot"><span>Scheduler → Worker → Status → Outbox</span><span>STATUS PULSE</span></div>
           </aside>
         </div>
       </div>
     </section>
 
-    <section class="screen hidden" id="scenarios" aria-labelledby="scenario-title">
-      <div class="scenario-shell">
+    <!-- FEATURES -->
+    <section class="screen hidden" id="features" aria-labelledby="features-title">
+      <div class="page-shell">
         <header class="topbar">
-          <a class="brand" href="#" aria-label="StatusGrep home">
+          <a class="brand" href="#cover" data-go="cover">
             <img src="./mark.svg" alt="" />
             <span class="brand-name">Status<span>Grep</span></span>
           </a>
-          <span class="eyebrow">Acceptance walkthrough</span>
+          <nav class="nav-pills" aria-label="Presentation sections">
+            <button type="button" data-go="cover">Cover</button>
+            <button type="button" data-go="features" class="is-active">Features</button>
+            <button type="button" data-go="scenarios">Acceptance</button>
+          </nav>
         </header>
-        <div class="scenario-header">
+        <div class="page-header">
+          <div>
+            <span class="eyebrow">What to point out</span>
+            <h1 id="features-title">Status Pulse features</h1>
+            <p>Vocabulary and architecture for the live demo — statuses, incident lifecycle, roles, and the four processes.</p>
+          </div>
+          <div class="header-actions">
+            <button class="back-btn" type="button" data-go="scenarios">Acceptance →</button>
+          </div>
+        </div>
+        <div class="feat-grid">
+          <article class="feat-card animate">
+            <h2>Service statuses</h2>
+            <div class="pill-row">
+              <span class="pill ok">Operational</span>
+              <span class="pill warn">Degraded</span>
+              <span class="pill bad">Outage</span>
+              <span class="pill unknown">Unknown</span>
+            </div>
+            <ul>
+              <li><strong>Operational</strong> — healthy against check rules (success + recovery threshold).</li>
+              <li><strong>Degraded</strong> — up but not fully healthy (e.g. slow / soft failures).</li>
+              <li><strong>Outage</strong> — consecutive failures reached <strong>fail threshold</strong>.</li>
+              <li><strong>Unknown</strong> — no fresh results yet, or stale / never checked.</li>
+            </ul>
+          </article>
+          <article class="feat-card animate">
+            <h2>Incident lifecycle</h2>
+            <div class="flow">
+              <span>Investigating</span><i>→</i>
+              <span>Identified</span><i>→</i>
+              <span>Monitoring</span><i>→</i>
+              <span>Resolved</span>
+            </div>
+            <ul style="margin-top:.85rem">
+              <li>Opens automatically when status becomes <strong>Outage</strong> (one active incident per service).</li>
+              <li>Updates may be a <strong>note</strong> or move only to the <strong>next</strong> status (no going backwards).</li>
+              <li><strong>Acknowledge</strong> records that a responder saw the alert — does not resolve the incident.</li>
+            </ul>
+          </article>
+          <article class="feat-card animate">
+            <h2>Checks & thresholds</h2>
+            <ul>
+              <li><strong>Intervals</strong> — fixed set (30s … 1h), not arbitrary seconds.</li>
+              <li><strong>Method</strong> — GET / HEAD / POST · expected status codes.</li>
+              <li><strong>failThreshold</strong> — failures in a row → Outage.</li>
+              <li><strong>recoveryThreshold</strong> — successes in a row → Operational again.</li>
+              <li><strong>Override</strong> — temporary manual status with expiry (owner).</li>
+            </ul>
+          </article>
+          <article class="feat-card animate">
+            <h2>Roles & visibility</h2>
+            <div class="pill-row">
+              <span class="pill inc">Owner</span>
+              <span class="pill inc">Responder</span>
+              <span class="pill unknown">Viewer</span>
+              <span class="pill ok">Admin</span>
+            </div>
+            <ul>
+              <li><strong>Owner</strong> — services, members, plan, overrides.</li>
+              <li><strong>Responder</strong> — incidents, alerts, acknowledge.</li>
+              <li><strong>Viewer</strong> — read-only in the project.</li>
+              <li><strong>Platform admin</strong> — jobs, outbox, audit, grant admin (not project Owner).</li>
+              <li><strong>isPublic</strong> — only public services appear on the public status page.</li>
+            </ul>
+          </article>
+          <article class="feat-card animate">
+            <h2>Processes (one database)</h2>
+            <div class="flow">
+              <span>API</span><i>+</i>
+              <span>Scheduler</span><i>+</i>
+              <span>Worker</span><i>+</i>
+              <span>Dispatcher</span>
+            </div>
+            <ul style="margin-top:.85rem">
+              <li><strong>API</strong> — JSON under <code style="color:var(--brand2)">/api/v1</code> · StatusGrep UI.</li>
+              <li><strong>Scheduler</strong> — enqueues checks on interval; stale → Unknown.</li>
+              <li><strong>Worker</strong> — runs HTTP check, records result, recalculates status, opens incident.</li>
+              <li><strong>Dispatcher</strong> — drains outbox (mail) with retries.</li>
+            </ul>
+          </article>
+          <article class="feat-card animate">
+            <h2>Plans, mail, reliability</h2>
+            <ul>
+              <li><strong>Free / Pro</strong> — limits on services & members; Pro via <strong>Paystack</strong> checkout + verify.</li>
+              <li><strong>Outbox</strong> — alerts, invites, welcome, plan confirmation, public subscribers.</li>
+              <li><strong>Exactly-once style</strong> — DB constraints for jobs, active incident, alert dedupe, payment keys.</li>
+              <li><strong>Audit</strong> — membership, plan, acknowledge, config changes.</li>
+            </ul>
+          </article>
+          <article class="feat-card animate wide">
+            <h2>Live demo path (point these out)</h2>
+            <ul>
+              <li><strong>01–03</strong> — healthy service Operational → force fail → Outage + one incident + alert → Acknowledge → recover → Operational.</li>
+              <li><strong>06</strong> — private service absent from public status; public service visible.</li>
+              <li><strong>04–05–07</strong> — say: retries don’t duplicate; outbox retries mail; Paystack verify before plan change.</li>
+              <li><strong>UI</strong> — StatusGrep project view, service results, incidents, alerts; optional public page tab.</li>
+            </ul>
+          </article>
+        </div>
+        <footer class="foot">
+          <span><strong>Stack:</strong> Node · Express · Prisma · Postgres · Redis (public cache) · Paystack · email outbox</span>
+          <span><strong>UI:</strong> StatusGrep · API: Status Pulse</span>
+        </footer>
+      </div>
+    </section>
+
+    <!-- ACCEPTANCE -->
+    <section class="screen hidden" id="scenarios" aria-labelledby="scenario-title">
+      <div class="page-shell">
+        <header class="topbar">
+          <a class="brand" href="#cover" data-go="cover">
+            <img src="./mark.svg" alt="" />
+            <span class="brand-name">Status<span>Grep</span></span>
+          </a>
+          <nav class="nav-pills" aria-label="Presentation sections">
+            <button type="button" data-go="cover">Cover</button>
+            <button type="button" data-go="features">Features</button>
+            <button type="button" data-go="scenarios" class="is-active">Acceptance</button>
+          </nav>
+        </header>
+        <div class="page-header">
           <div>
             <span class="eyebrow">End-to-end verification</span>
             <h1 id="scenario-title">Acceptance scenarios</h1>
             <p>Seven behaviours the system must prove — from the first successful check to reliable billing.</p>
           </div>
-          <div class="header-actions"><span class="count"><strong>07</strong> scenarios</span><button class="back-btn" id="back" type="button">← Cover</button></div>
+          <div class="header-actions">
+            <span class="count"><strong>07</strong> scenarios</span>
+            <button class="back-btn" type="button" data-go="features">← Features</button>
+          </div>
         </div>
         <div class="scenario-grid">
           <article class="scenario animate">
@@ -223,35 +429,44 @@
         </div>
         <footer class="foot">
           <span><strong>Live demo:</strong> walk through 01–03 and 06 in StatusGrep.</span>
-          <span><strong>Design & tests:</strong> demonstrate 04–05–07.</span>
+          <span><strong>Design & tests:</strong> speak to 04–05–07.</span>
         </footer>
       </div>
     </section>
   </main>
   <script>
-    const cover = document.getElementById("cover");
-    const scenarios = document.getElementById("scenarios");
-    const enterButton = document.getElementById("enter");
-    const backButton = document.getElementById("back");
-
-    function showScenarios() {
-      cover.classList.add("hidden");
-      scenarios.classList.remove("hidden");
+    const screens = {
+      cover: document.getElementById("cover"),
+      features: document.getElementById("features"),
+      scenarios: document.getElementById("scenarios"),
+    };
+    function go(id) {
+      Object.entries(screens).forEach(([key, el]) => {
+        if (!el) return;
+        el.classList.toggle("hidden", key !== id);
+      });
+      document.querySelectorAll("[data-go]").forEach((btn) => {
+        if (btn.tagName === "BUTTON") {
+          btn.classList.toggle("is-active", btn.getAttribute("data-go") === id);
+        }
+      });
       window.scrollTo({ top: 0, behavior: "smooth" });
-      backButton.focus({ preventScroll: true });
     }
-    function showCover() {
-      scenarios.classList.add("hidden");
-      cover.classList.remove("hidden");
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      enterButton.focus({ preventScroll: true });
-    }
-    enterButton.addEventListener("click", showScenarios);
-    backButton.addEventListener("click", showCover);
+    document.querySelectorAll("[data-go]").forEach((el) => {
+      el.addEventListener("click", (e) => {
+        e.preventDefault();
+        go(el.getAttribute("data-go"));
+      });
+    });
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" && scenarios.classList.contains("hidden") &&
-          (event.target === document.body || event.target === document.documentElement)) showScenarios();
-      if (event.key === "Escape" && !scenarios.classList.contains("hidden")) showCover();
+      if (event.target && ["INPUT", "TEXTAREA"].includes(event.target.tagName)) return;
+      if (event.key === "1") go("cover");
+      if (event.key === "2") go("features");
+      if (event.key === "3" || event.key === "Enter") {
+        if (screens.cover && !screens.cover.classList.contains("hidden") && event.key === "Enter") go("features");
+        else if (event.key === "3") go("scenarios");
+      }
+      if (event.key === "Escape") go("cover");
     });
   </script>
 </body>
