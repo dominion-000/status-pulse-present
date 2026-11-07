@@ -154,7 +154,7 @@
   <div class="deck" id="deck">
 
     <section class="slide active" data-slide>
-      <p class="kicker">Status Pulse <span>·</span> Capstone</p>
+      <p class="kicker">Capstone</p>
       <h1>Status<em>Grep</em></h1>
       <p class="sub">HTTP monitoring, incident response, and public status communication for small teams.</p>
     </section>
@@ -172,23 +172,6 @@
     </section>
 
     <section class="slide" data-slide>
-      <p class="kicker">Architecture</p>
-      <h2>Four processes, one database</h2>
-      <div class="flow">
-        <b>API</b><i>→</i>
-        <b>Scheduler</b><i>→</i>
-        <b>Worker</b><i>→</i>
-        <b>Dispatcher</b>
-      </div>
-      <ul>
-        <li><strong>API</strong> — JSON surface and auth; StatusGrep is the UI client</li>
-        <li><strong>Scheduler</strong> — enqueues checks on interval</li>
-        <li><strong>Worker</strong> — executes checks, records results, updates status</li>
-        <li><strong>Dispatcher</strong> — delivers outbox email with retry</li>
-      </ul>
-    </section>
-
-    <section class="slide" data-slide>
       <p class="kicker">Domain</p>
       <h2>Service status</h2>
       <div class="pills">
@@ -199,7 +182,7 @@
       </div>
       <ul>
         <li><strong>Operational</strong> — check rules satisfied through the recovery threshold</li>
-        <li><strong>Degraded</strong> — reachable but not fully healthy (e.g. latency rules)</li>
+        <li><strong>Degraded</strong> — reachable but not fully healthy</li>
         <li><strong>Outage</strong> — consecutive failures reached the fail threshold</li>
         <li><strong>Unknown</strong> — no usable recent results</li>
       </ul>
@@ -217,14 +200,14 @@
       <ul>
         <li>Opened automatically when status becomes Outage</li>
         <li>At most one active incident per service</li>
-        <li>Status advances only forward; notes do not change state</li>
+        <li>Status advances only forward</li>
         <li>Acknowledge records that an alert was seen; it does not resolve the incident</li>
       </ul>
     </section>
 
     <section class="slide" data-slide>
       <p class="kicker">Domain</p>
-      <h2>Access model</h2>
+      <h2>Access</h2>
       <div class="pills">
         <span class="pill blue">Owner</span>
         <span class="pill blue">Responder</span>
@@ -235,74 +218,69 @@
         <li><strong>Owner</strong> — services, members, plan, overrides</li>
         <li><strong>Responder</strong> — incidents, alerts, acknowledgement</li>
         <li><strong>Viewer</strong> — read access within the project</li>
-        <li><strong>isPublic</strong> — controls presence on the public status page</li>
+        <li><strong>isPublic</strong> — presence on the public status page</li>
       </ul>
     </section>
 
     <section class="slide" data-slide>
-      <p class="kicker">Reliability</p>
-      <h2>Constraints over convention</h2>
-      <ul>
-        <li>Job leases and unique constraints prevent duplicate check effects</li>
-        <li>Outbox records failed mail and retries with backoff</li>
-        <li>Plan changes apply only after payment verification</li>
-        <li>Audit trail covers membership, plan, and acknowledgement events</li>
-      </ul>
+      <p class="kicker">Verification</p>
+      <h2>Acceptance scenarios</h2>
+      <p class="sub">Seven end-to-end behaviours the system must satisfy. The next slides state each scenario in turn.</p>
     </section>
 
     <section class="slide" data-slide>
-      <p class="kicker">Acceptance · 01</p>
+      <p class="kicker">01 / 07</p>
       <h2>Healthy endpoint → Operational</h2>
       <p class="sub">A reachable endpoint with successful checks records results and shows Operational on the service and project views. Public services appear on the public status page.</p>
     </section>
 
     <section class="slide" data-slide>
-      <p class="kicker">Acceptance · 02</p>
+      <p class="kicker">02 / 07</p>
       <h2>Fail threshold → one Outage, one alert</h2>
       <p class="sub">When consecutive failures reach the fail threshold, the service enters Outage. A single incident and a single alert are created for that continuous outage—not one per failed check.</p>
     </section>
 
     <section class="slide" data-slide>
-      <p class="kicker">Acceptance · 03</p>
+      <p class="kicker">03 / 07</p>
       <h2>Recovery threshold → Operational</h2>
       <p class="sub">After Outage, status returns to Operational only after the configured number of consecutive successful checks—not after a single success.</p>
     </section>
 
     <section class="slide" data-slide>
-      <p class="kicker">Acceptance · 04</p>
+      <p class="kicker">04 / 07</p>
       <h2>Retries without duplicates</h2>
       <p class="sub">Scheduler and worker retries must not produce duplicate results or alerts for the same state. Uniqueness is enforced in the database.</p>
     </section>
 
     <section class="slide" data-slide>
-      <p class="kicker">Acceptance · 05</p>
+      <p class="kicker">05 / 07</p>
       <h2>Failed mail is retried</h2>
       <p class="sub">Delivery failures remain in the outbox with backoff. Messages are marked delivered only after a successful send. Acknowledgement is independent of delivery.</p>
     </section>
 
     <section class="slide" data-slide>
-      <p class="kicker">Acceptance · 06</p>
+      <p class="kicker">06 / 07</p>
       <h2>Private services stay private</h2>
       <p class="sub">Services with isPublic false are omitted from the public status surface. Project members retain access in the authenticated UI.</p>
     </section>
 
     <section class="slide" data-slide>
-      <p class="kicker">Acceptance · 07</p>
+      <p class="kicker">07 / 07</p>
       <h2>Plan payment is verified once</h2>
       <p class="sub">Failed or abandoned checkout leaves limits unchanged. Successful Paystack payment is verified before upgrade; idempotency prevents applying the plan twice.</p>
     </section>
 
     <section class="slide" data-slide>
       <p class="kicker">Close</p>
-      <h1>Live demonstration</h1>
-      <p class="sub">StatusGrep against the deployed Status Pulse API: monitoring path, incident and alert, recovery, and public visibility.</p>
+      <h1>Demonstration</h1>
+      <p class="sub">StatusGrep against the deployed API: monitoring path, incident and alert, recovery, and public visibility.</p>
     </section>
 
   </div>
   <footer class="bar">
     <div class="brand">Status<span>Grep</span></div>
     <div id="counter">1 / 1</div>
-    <div class="hint"><kbd>←</kbd> <kbd>→</kbd> or click</div>
+    <div class="hint"><kbd>←</kbd> <kbd>→</kbd></div>
   </footer>
   <script>
     const slides = [...document.querySelectorAll("[data-slide]")];
@@ -327,8 +305,7 @@
     });
     document.getElementById("deck").addEventListener("click", (e) => {
       if (e.target.closest("a,button")) return;
-      const mid = window.innerWidth / 2;
-      show(e.clientX > mid ? i + 1 : i - 1);
+      show(e.clientX > window.innerWidth / 2 ? i + 1 : i - 1);
     });
     show(0);
   </script>
